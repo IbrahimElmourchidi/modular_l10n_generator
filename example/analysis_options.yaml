@@ -1,0 +1,5 @@
+# Default analyzer settings, so the example does not inherit the
+# generator package's stricter ones.
+analyzer:
+  exclude:
+    - build/**

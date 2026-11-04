@@ -1,0 +1,20 @@
+lib/features/fixture/l10n/zh_Hans.arb: "@@locale": "zh-Hans" is not in canonical form; treating it as "zh_Hans". Use "zh_Hans" so it matches the default-locale setting.
+❌ lib/features/bad/l10n/en.arb: Invalid module name "Bad-Name". Must be snake_case (e.g., auth, user_profile, home_screen)
+❌ lib/features/bad/l10n/xx.arb: Invalid or unknown locale "xx_YY". Valid examples: en, en_US, zh_Hans_CN, ar_EG, sr_Latn_RS
+❌ lib/features/broken/l10n/en.arb: Invalid JSON syntax
+Missing "other" case for "gender"; falling back to "male"
+Missing "other" case for "c"; falling back to "one"
+fixture.bareBrace: Expected ',' or '}' in placeholder "to"
+Missing "other" case for "n"; falling back to "one"
+fixture.wordBoundaryCase: Unclosed "plural" block for "n"
+fixture.unbalanced: Unclosed "plural" block for "c"
+fixture.unknownType: Unsupported ICU argument type "date" in "d"; it will be rendered as literal text
+formattedOperand: "{count}" is a plural operand, so its "compact" format is ignored — the value is passed to `Intl.plural` raw, and `#` substitutes it unformatted.
+fixture.apostropheEatsPlaceholder: This apostrophe quotes "{" as literal text, so "{place}" is not interpolated and the message has no such parameter. Write "''" for a literal apostrophe, or quote the whole placeholder as '{place}'.
+fixture.apostropheUnclosed: This apostrophe opens a quoted run that never closes, so everything after it is literal text. Write "''" for a literal apostrophe.
+plainPlusPluralPlusFormat: "{count}" is a plural operand, so its "decimalPattern" format is ignored — the value is passed to `Intl.plural` raw, and `#` substitutes it unformatted.
+fixture.duplicateExactSelector: Duplicate case "=1" in "n"
+fixture.missingOtherWithSyntaxError: Unclosed "plural" block for "n"
+"@n" is declared as "String" but is used as a plural operand, so it is typed "num"
+[ar] fixture_staticDefaultIcuLocale: "count" is not an argument of the template translation; using the en translation instead
+[ru] fixture_localeReusesObjectOperand: "a" is `Object` but the translation uses it as a plural operand, which needs a `num`; using the en translation instead

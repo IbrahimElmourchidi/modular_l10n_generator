@@ -1,0 +1,8 @@
+{
+  "@@locale": "en",
+  "@@context": "home_screen",
+  "title": "Home",
+  "@title": {
+    "description": "Home title"
+  }
+}

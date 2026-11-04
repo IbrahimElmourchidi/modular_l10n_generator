@@ -1,0 +1,6 @@
+{
+  "@@locale": "en",
+  "@@context": "auth_extra",
+  "ok": "OK",
+  "place": "{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}"
+}

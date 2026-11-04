@@ -1,0 +1,29 @@
+name: modular_l10n_generator
+description: Command-line generator for modular Flutter localization. Turns per-feature ARB files into a type-safe, Flutter Intl compatible Dart API. Works from any IDE or CI.
+version: 1.0.0
+repository: https://github.com/IbrahimElmourchidi/modular_l10n_generator
+issue_tracker: https://github.com/IbrahimElmourchidi/modular_l10n_generator/issues
+
+topics:
+  - localization
+  - l10n
+  - i18n
+  - codegen
+  - arb
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+executables:
+  modular_l10n_generator:
+
+dependencies:
+  args: ^2.5.0
+  glob: ^2.1.2
+  path: ^1.9.0
+  watcher: ^1.1.0
+  yaml: ^3.1.2
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.0

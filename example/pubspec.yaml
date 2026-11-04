@@ -1,0 +1,24 @@
+name: modular_l10n_generator_example
+description: Example app for modular_l10n_generator.
+publish_to: none
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  modular_l10n_generator:
+    path: ../
+
+modular_l10n:
+  class_name: ML
+  default_locale: en
+  output_dir: lib/generated/modular_l10n

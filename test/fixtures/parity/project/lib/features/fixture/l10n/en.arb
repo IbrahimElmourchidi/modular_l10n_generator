@@ -1,0 +1,218 @@
+{
+  "@@locale": "en",
+  "@@context": "fixture",
+  "simple": "Hello {name}",
+  "twoArgs": "{greeting}, {name}!",
+  "adjacent": "{n} items left",
+  "noArgs": "Static text",
+  "multiline": "Line one\nLine two\twith tab",
+  "dollarSign": "Costs {price} USD",
+  "typedInt": "You have {count} items",
+  "@typedInt": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "typedDouble": "Total {amount}",
+  "@typedDouble": {
+    "placeholders": {
+      "amount": {
+        "type": "double",
+        "example": "1.5"
+      }
+    }
+  },
+  "typedNum": "Total {amount}",
+  "@typedNum": {
+    "placeholders": {
+      "amount": {
+        "type": "num",
+        "example": "1.5"
+      }
+    }
+  },
+  "typedBool": "Flag is {on}",
+  "@typedBool": {
+    "placeholders": {
+      "on": {
+        "type": "bool",
+        "example": "true"
+      }
+    }
+  },
+  "typedDate": "On {when}",
+  "@typedDate": {
+    "placeholders": {
+      "when": {
+        "type": "DateTime",
+        "example": "2000-01-30"
+      }
+    }
+  },
+  "untyped": "Total {amount}",
+  "@untyped": {
+    "placeholders": {
+      "amount": {
+        "example": "10.50"
+      }
+    }
+  },
+  "numericExample": "Total {amount}",
+  "@numericExample": {
+    "placeholders": {
+      "amount": {
+        "type": "num",
+        "example": 10.5
+      }
+    }
+  },
+  "namedDate": "On {when}",
+  "@namedDate": {
+    "placeholders": {
+      "when": {
+        "type": "DateTime",
+        "format": "yMMMd",
+        "example": "2000-01-30"
+      }
+    }
+  },
+  "customDate": "Born {when}",
+  "@customDate": {
+    "placeholders": {
+      "when": {
+        "type": "DateTime",
+        "format": "yyyy-MM-dd",
+        "isCustomDateFormat": "true",
+        "example": "2000-01-30"
+      }
+    }
+  },
+  "currency": "Total {amount}",
+  "@currency": {
+    "placeholders": {
+      "amount": {
+        "type": "num",
+        "format": "currency",
+        "example": "10.5",
+        "optionalParameters": {
+          "symbol": "$",
+          "decimalDigits": 2
+        }
+      }
+    }
+  },
+  "compact": "Views {count}",
+  "@compact": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compact",
+        "example": "1000"
+      }
+    }
+  },
+  "pluralBasic": "{count, plural, =0{no items} =1{one item} other{{count} items}}",
+  "pluralNamed": "{c, plural, one{one thing} other{{c} things}}",
+  "pluralEq5": "{c, plural, =5{five} other{{c} things}}",
+  "pluralRuExact": "{c, plural, =1{exactly one} other{{c} items}}",
+  "pluralOffset": "{c, plural, offset:1 =0{nobody} =1{just you} other{you and {c} others}}",
+  "pluralOffsetHash": "{c, plural, offset:1 other{you and # others}}",
+  "pluralRtl": "{count, plural, zero{none} one{message} few{messages} many{messages} other{messages}}",
+  "hashPlural": "{count, plural, one{# item} other{# items}}",
+  "hashMid": "{count, plural, other{You have # left}}",
+  "hashLiteral": "Order #{id}",
+  "selectBasic": "{gender, select, male{He} female{She} other{They}} replied",
+  "selectSpaced": "{g, select, male {He} other {They}}",
+  "selectNoOther": "{gender, select, male{He} female{She}} replied",
+  "pluralNoOther": "{c, plural, one{thing}}",
+  "compound": "{gender, select, male{He} other{They}} has {count, plural, one{1 item} other{{count} items}}",
+  "textAroundPlural": "{name} has {count, plural, one{1 item} other{{count} items}}",
+  "textAfterPlural": "{count, plural, one{one item} other{{count} items}} remaining",
+  "nestedSelectInPlural": "{c, plural, other{{g, select, male{he has {c} items} other{they have {c} items}}}}",
+  "nestedPluralInPlural": "{c, plural, other{{d, plural, one{{c} of {d}} other{{c} of many}}}}",
+  "nestedSelectInSelect": "{a, select, x{{b, select, p{deep} other{shallow}}} other{flat}}",
+  "hashInNestedSelect": "{c, plural, other{{g, select, male{he has #} other{they have #}}}}",
+  "escapedApostrophe": "It''s here, don''t touch {n}",
+  "quotedBrace": "Press '{' to open, {n} left",
+  "quotedArg": "The '{'literal'}' key",
+  "bareBrace": "Press { to open",
+  "ordinalEn": "{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}",
+  "ordinalRu": "{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}",
+  "ordinalExact": "{n, selectordinal, =1{first} =2{second} other{#th}}",
+  "ordinalNoOther": "{n, selectordinal, one{#st} two{#nd}}",
+  "wordBoundaryCase": "{n, plural, other{Someone{ commented} one{one}}",
+  "unbalanced": "{c, plural, one{unclosed}",
+  "unknownType": "{d, date, short{short}}",
+  "staticDefaultIcuLocale": "Static text",
+  "icuDefaultStaticLocale": "{count, plural, one{one} other{{count} many}}",
+  "translationReorder": "Hello {name}",
+  "translationTrailingPunctuation": "Hello {name}",
+  "translationNameFirst": "Hello {name}",
+  "translationDropsArgument": "Hello {name}",
+  "localeAddsPlural": "{count} items",
+  "@localeAddsPlural": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "formattedOperand": "{count, plural, one{# item} other{# items}}",
+  "@formattedOperand": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compact",
+        "example": "1"
+      }
+    }
+  },
+  "plainAndOperand": "You have {count}. {count, plural, one{# item} other{# items}}",
+  "operandDeclaredString": "{n, plural, one{# item} other{# items}}",
+  "@operandDeclaredString": {
+    "placeholders": {
+      "n": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "ordinalOperandDeclaredDouble": "{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}",
+  "@ordinalOperandDeclaredDouble": {
+    "placeholders": {
+      "n": {
+        "type": "double",
+        "example": "1"
+      }
+    }
+  },
+  "localeReusesObjectOperand": "Value {a}",
+  "ordinalOffset": "{n, selectordinal, offset:1 =0{th} =1{st} other{#th}}",
+  "ordinalUntranslatedLocale": "{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}",
+  "quotedHashInsidePlural": "{c, plural, other{Press '#' then # more}}",
+  "quotedHashOutsidePlural": "Press '#' to go",
+  "nestedOrdinal": "{g, select, male{He finished {n, selectordinal, one{#st} other{#th}}} other{They finished}}",
+  "nestedOrdinalInPlural": "{c, plural, other{{g, select, male{he took {n, selectordinal, one{#st} other{#th}}} other{they took}}}}",
+  "localeEmptyValue": "{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}",
+  "apostropheEatsPlaceholder": "Bienvenue à l'{place} aujourd'hui",
+  "apostropheUnclosed": "unclosed '{place} and the rest",
+  "quotedPipe": "x '|' y",
+  "plainPlusPluralPlusFormat": "{count} items: {count, plural, one{one left} other{# left}}",
+  "@plainPlusPluralPlusFormat": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "pluralAndSelectSameName": "{n, plural, other{{n, select, one{a} other{b}}}}",
+  "reservedWordPlaceholder": "Hello {default}",
+  "hashWithLargeValue": "{c, plural, other{1000 #}}",
+  "duplicateExactSelector": "{n, plural, =1{first} =1{again} other{#th}}",
+  "missingOtherWithSyntaxError": "{n, plural, one{a}"
+}

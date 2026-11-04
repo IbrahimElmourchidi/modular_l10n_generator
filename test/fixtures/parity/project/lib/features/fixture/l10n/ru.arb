@@ -1,0 +1,9 @@
+{
+  "@@locale": "ru",
+  "@@context": "fixture",
+  "pluralRuExact": "{c, plural, =1{ровно один} =5{пять} other{{c} предметов}}",
+  "ordinalRu": "{n, selectordinal, one{#-й} few{#-й} many{#-й} other{#-й}}",
+  "translationTrailingPunctuation": "Привет, {name}!",
+  "translationNameFirst": "{name}, привет",
+  "localeReusesObjectOperand": "Значение {a, plural, one{одна вещь} other{несколько вещей}}"
+}

@@ -1,0 +1,9 @@
+{
+  "@@locale": "ar",
+  "@@context": "home",
+  "title": "الرئيسية",
+  "lastSeen": "آخر ظهور {date}",
+  "balance": "الرصيد: {amount}",
+  "rank": "حللت في المركز {place}",
+  "greeting": "{gender, select, male{هو متصل} female{هي متصلة} other{متصل}}"
+}

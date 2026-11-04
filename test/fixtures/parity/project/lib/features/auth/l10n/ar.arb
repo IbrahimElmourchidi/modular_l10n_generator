@@ -1,0 +1,10 @@
+{
+  "@@locale": "ar",
+  "@@context": "auth",
+  "emailLabel": "البريد",
+  "welcome": "مرحبا {name}! {count, plural, zero{لا رسائل} one{رسالة} two{رسالتان} few{# رسائل} many{# رسالة} other{# رسالة}}",
+  "@welcome": {
+    "description": "ar-only description should not override"
+  },
+  "price": ""
+}

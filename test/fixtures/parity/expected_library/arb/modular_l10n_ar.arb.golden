@@ -1,0 +1,278 @@
+{
+  "@@locale": "ar",
+  "@@last_modified": "2026-11-04",
+  "auth_extra_ok": "OK",
+  "auth_extra_place": "{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}",
+  "auth_emailLabel": "البريد",
+  "@auth_emailLabel": {
+    "description": "Label for the `email` field\nsecond line"
+  },
+  "auth_welcome": "مرحبا {name}! {count, plural, zero{لا رسائل} one{رسالة} two{رسالتان} few{# رسائل} many{# رسالة} other{# رسالة}}",
+  "@auth_welcome": {
+    "description": "",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "42"
+      },
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "auth_price": "Price: {amount}",
+  "@auth_price": {
+    "placeholders": {
+      "amount": {
+        "type": "double",
+        "format": "currency",
+        "optionalParameters": {
+          "decimalDigits": 2,
+          "symbol": "€",
+          "name": "EUR"
+        }
+      }
+    }
+  },
+  "auth_due": "Due {date}",
+  "@auth_due": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMd"
+      }
+    }
+  },
+  "auth_dueCustom": "Due {date}",
+  "@auth_dueCustom": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "EEE, MMM d ''yy",
+        "isCustomDateFormat": "true"
+      }
+    }
+  },
+  "auth_dollars": "Costs $5 \\ \"quoted\" and it's tabbed\there",
+  "auth_emptyValue": "",
+  "fixture_simple": "Hello {name}",
+  "fixture_twoArgs": "{greeting}, {name}!",
+  "fixture_adjacent": "{n} items left",
+  "fixture_noArgs": "Static text",
+  "fixture_multiline": "Line one\nLine two\twith tab",
+  "fixture_dollarSign": "Costs {price} USD",
+  "fixture_typedInt": "You have {count} items",
+  "@fixture_typedInt": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "fixture_typedDouble": "Total {amount}",
+  "@fixture_typedDouble": {
+    "placeholders": {
+      "amount": {
+        "type": "double",
+        "example": "1.5"
+      }
+    }
+  },
+  "fixture_typedNum": "Total {amount}",
+  "@fixture_typedNum": {
+    "placeholders": {
+      "amount": {
+        "type": "num",
+        "example": "1.5"
+      }
+    }
+  },
+  "fixture_typedBool": "Flag is {on}",
+  "@fixture_typedBool": {
+    "placeholders": {
+      "on": {
+        "type": "bool",
+        "example": "true"
+      }
+    }
+  },
+  "fixture_typedDate": "On {when}",
+  "@fixture_typedDate": {
+    "placeholders": {
+      "when": {
+        "type": "DateTime",
+        "example": "2000-01-30"
+      }
+    }
+  },
+  "fixture_untyped": "Total {amount}",
+  "@fixture_untyped": {
+    "placeholders": {
+      "amount": {
+        "example": "10.50"
+      }
+    }
+  },
+  "fixture_numericExample": "Total {amount}",
+  "@fixture_numericExample": {
+    "placeholders": {
+      "amount": {
+        "type": "num",
+        "example": "10.5"
+      }
+    }
+  },
+  "fixture_namedDate": "يوم {when}",
+  "@fixture_namedDate": {
+    "placeholders": {
+      "when": {
+        "type": "DateTime",
+        "example": "2000-01-30",
+        "format": "yMMMd"
+      }
+    }
+  },
+  "fixture_customDate": "Born {when}",
+  "@fixture_customDate": {
+    "placeholders": {
+      "when": {
+        "type": "DateTime",
+        "example": "2000-01-30",
+        "format": "yyyy-MM-dd",
+        "isCustomDateFormat": "true"
+      }
+    }
+  },
+  "fixture_currency": "المجموع {amount}",
+  "@fixture_currency": {
+    "placeholders": {
+      "amount": {
+        "type": "num",
+        "example": "10.5",
+        "format": "currency",
+        "optionalParameters": {
+          "symbol": "$",
+          "decimalDigits": 2
+        }
+      }
+    }
+  },
+  "fixture_compact": "Views {count}",
+  "@fixture_compact": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1000",
+        "format": "compact"
+      }
+    }
+  },
+  "fixture_pluralBasic": "{count, plural, =0{no items} =1{one item} other{{count} items}}",
+  "fixture_pluralNamed": "{c, plural, one{one thing} other{{c} things}}",
+  "fixture_pluralEq5": "{c, plural, =5{five} other{{c} things}}",
+  "fixture_pluralRuExact": "{c, plural, =1{exactly one} other{{c} items}}",
+  "fixture_pluralOffset": "{c, plural, offset:1 =0{nobody} =1{just you} other{you and {c} others}}",
+  "fixture_pluralOffsetHash": "{c, plural, offset:1 other{you and # others}}",
+  "fixture_pluralRtl": "{count, plural, zero{لا رسائل} one{رسالة} two{رسالتان} few{{count} رسائل} many{{count} رسالة} other{{count} رسالة}}",
+  "fixture_hashPlural": "{count, plural, one{# item} other{# items}}",
+  "fixture_hashMid": "{count, plural, other{You have # left}}",
+  "fixture_hashLiteral": "Order #{id}",
+  "fixture_selectBasic": "{gender, select, male{He} female{She} other{They}} replied",
+  "fixture_selectSpaced": "{g, select, male {He} other {They}}",
+  "fixture_selectNoOther": "{gender, select, male{He} female{She}} replied",
+  "fixture_pluralNoOther": "{c, plural, one{thing}}",
+  "fixture_compound": "{gender, select, male{He} other{They}} has {count, plural, one{1 item} other{{count} items}}",
+  "fixture_textAroundPlural": "{name} has {count, plural, one{1 item} other{{count} items}}",
+  "fixture_textAfterPlural": "{count, plural, one{one item} other{{count} items}} remaining",
+  "fixture_nestedSelectInPlural": "{c, plural, other{{g, select, male{he has {c} items} other{they have {c} items}}}}",
+  "fixture_nestedPluralInPlural": "{c, plural, other{{d, plural, one{{c} of {d}} other{{c} of many}}}}",
+  "fixture_nestedSelectInSelect": "{a, select, x{{b, select, p{deep} other{shallow}}} other{flat}}",
+  "fixture_hashInNestedSelect": "{c, plural, other{{g, select, male{he has #} other{they have #}}}}",
+  "fixture_escapedApostrophe": "It''s here, don''t touch {n}",
+  "fixture_quotedBrace": "Press '{' to open, {n} left",
+  "fixture_quotedArg": "The '{'literal'}' key",
+  "fixture_bareBrace": "Press { to open",
+  "fixture_ordinalEn": "{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}",
+  "fixture_ordinalRu": "{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}",
+  "fixture_ordinalExact": "{n, selectordinal, =1{first} =2{second} other{#th}}",
+  "fixture_ordinalNoOther": "{n, selectordinal, one{#st} two{#nd}}",
+  "fixture_wordBoundaryCase": "{n, plural, other{Someone{ commented} one{one}}",
+  "fixture_unbalanced": "{c, plural, one{unclosed}",
+  "fixture_unknownType": "{d, date, short{short}}",
+  "fixture_staticDefaultIcuLocale": "{count, plural, zero{صفر} one{واحد} two{اثنان} few{قليل} many{كثير} other{كثير}}",
+  "fixture_icuDefaultStaticLocale": "نص ثابت",
+  "fixture_translationReorder": "مرحبا، {name}",
+  "fixture_translationTrailingPunctuation": "Hello {name}",
+  "fixture_translationNameFirst": "Hello {name}",
+  "fixture_translationDropsArgument": "أهلا",
+  "fixture_localeAddsPlural": "{count, plural, zero{لا عناصر} one{عنصر واحد} two{عنصران} few{قليل} many{كثير} other{كثير عنصر}}",
+  "@fixture_localeAddsPlural": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "fixture_formattedOperand": "{count, plural, one{# item} other{# items}}",
+  "@fixture_formattedOperand": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1",
+        "format": "compact"
+      }
+    }
+  },
+  "fixture_plainAndOperand": "You have {count}. {count, plural, one{# item} other{# items}}",
+  "fixture_operandDeclaredString": "{n, plural, one{# item} other{# items}}",
+  "@fixture_operandDeclaredString": {
+    "placeholders": {
+      "n": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "fixture_ordinalOperandDeclaredDouble": "{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}",
+  "@fixture_ordinalOperandDeclaredDouble": {
+    "placeholders": {
+      "n": {
+        "type": "double",
+        "example": "1"
+      }
+    }
+  },
+  "fixture_localeReusesObjectOperand": "Value {a}",
+  "fixture_ordinalOffset": "{n, selectordinal, offset:1 =0{th} =1{st} other{#th}}",
+  "fixture_ordinalUntranslatedLocale": "{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}",
+  "fixture_quotedHashInsidePlural": "{c, plural, other{Press '#' then # more}}",
+  "fixture_quotedHashOutsidePlural": "Press '#' to go",
+  "fixture_nestedOrdinal": "{g, select, male{He finished {n, selectordinal, one{#st} other{#th}}} other{They finished}}",
+  "fixture_nestedOrdinalInPlural": "{c, plural, other{{g, select, male{he took {n, selectordinal, one{#st} other{#th}}} other{they took}}}}",
+  "fixture_localeEmptyValue": "{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}",
+  "fixture_apostropheEatsPlaceholder": "Bienvenue à l'{place} aujourd'hui",
+  "fixture_apostropheUnclosed": "unclosed '{place} and the rest",
+  "fixture_quotedPipe": "x '|' y",
+  "fixture_plainPlusPluralPlusFormat": "{count} items: {count, plural, one{one left} other{# left}}",
+  "@fixture_plainPlusPluralPlusFormat": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "fixture_pluralAndSelectSameName": "{n, plural, other{{n, select, one{a} other{b}}}}",
+  "fixture_reservedWordPlaceholder": "Hello {default}",
+  "fixture_hashWithLargeValue": "{c, plural, other{1000 #}}",
+  "fixture_duplicateExactSelector": "{n, plural, =1{first} =1{again} other{#th}}",
+  "fixture_missingOtherWithSyntaxError": "{n, plural, one{a}",
+  "fixture_nonDefaultOnlyKey": "مفتاح فقط بالعربية",
+  "home_screen_title": "الرئيسية",
+  "@home_screen_title": {
+    "description": "Home title"
+  }
+}

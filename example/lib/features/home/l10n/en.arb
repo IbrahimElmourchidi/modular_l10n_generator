@@ -1,0 +1,23 @@
+{
+  "@@locale": "en",
+  "@@context": "home",
+  "title": "Home",
+  "lastSeen": "Last seen {date}",
+  "@lastSeen": {
+    "placeholders": {
+      "date": { "type": "DateTime", "format": "yMMMd" }
+    }
+  },
+  "balance": "Balance: {amount}",
+  "@balance": {
+    "placeholders": {
+      "amount": {
+        "type": "double",
+        "format": "currency",
+        "optionalParameters": { "symbol": "$", "decimalDigits": 2 }
+      }
+    }
+  },
+  "rank": "You finished {place, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}",
+  "greeting": "{gender, select, male{He is online} female{She is online} other{They are online}}"
+}

@@ -1,0 +1,57 @@
+{
+  "@@locale": "en",
+  "@@context": "auth",
+  "emailLabel": "Email",
+  "@emailLabel": {
+    "description": "Label for the `email` field\nsecond line"
+  },
+  "welcome": "Welcome back, {name}! You have {count, plural, =0{no messages} one{one message} other{# messages}}.",
+  "@welcome": {
+    "description": "",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": 42
+      },
+      "count": {
+        "type": "int",
+        "example": 2
+      }
+    }
+  },
+  "price": "Price: {amount}",
+  "@price": {
+    "placeholders": {
+      "amount": {
+        "type": "double",
+        "format": "currency",
+        "optionalParameters": {
+          "decimalDigits": 2,
+          "symbol": "€",
+          "name": "EUR"
+        }
+      }
+    }
+  },
+  "due": "Due {date}",
+  "@due": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMd"
+      }
+    }
+  },
+  "dueCustom": "Due {date}",
+  "@dueCustom": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "EEE, MMM d ''yy",
+        "isCustomDateFormat": "true"
+      }
+    }
+  },
+  "dollars": "Costs $5 \\ \"quoted\" and it's tabbed\there",
+  "emptyValue": ""
+}

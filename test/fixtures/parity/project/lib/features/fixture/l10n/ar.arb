@@ -1,0 +1,14 @@
+{
+  "@@locale": "ar",
+  "@@context": "fixture",
+  "namedDate": "يوم {when}",
+  "currency": "المجموع {amount}",
+  "pluralRtl": "{count, plural, zero{لا رسائل} one{رسالة} two{رسالتان} few{{count} رسائل} many{{count} رسالة} other{{count} رسالة}}",
+  "staticDefaultIcuLocale": "{count, plural, zero{صفر} one{واحد} two{اثنان} few{قليل} many{كثير} other{كثير}}",
+  "icuDefaultStaticLocale": "نص ثابت",
+  "translationReorder": "مرحبا، {name}",
+  "translationDropsArgument": "أهلا",
+  "localeAddsPlural": "{count, plural, zero{لا عناصر} one{عنصر واحد} two{عنصران} few{قليل} many{كثير} other{كثير عنصر}}",
+  "localeEmptyValue": "",
+  "nonDefaultOnlyKey": "مفتاح فقط بالعربية"
+}
