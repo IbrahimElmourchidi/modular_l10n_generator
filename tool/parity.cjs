@@ -77,7 +77,7 @@ function buildProject(root) {
     writeJson(path.join(root, 'lib/features/auth_extra/l10n/en.arb'), {
         '@@locale': 'en', '@@context': 'auth_extra', ok: 'OK', place: '{n, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}',
     });
-    writeJson(path.join(root, 'lib/features/Home/l10n/en.arb'), {
+    writeJson(path.join(root, 'lib/features/Main/l10n/en.arb'), {
         '@@locale': 'en', '@@context': 'home_screen', title: 'Home', '@title': { description: 'Home title' },
     });
     writeJson(path.join(root, 'lib/features/home/l10n/ar.arb'), {
