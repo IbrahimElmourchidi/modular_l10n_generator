@@ -126,14 +126,16 @@ String toSnakeCaseName(String str) => str
     .replaceAll(_dashOrSpace, '_')
     .toLowerCase();
 
-String _toPascalCase(String str) => str
+/// `user_profile` -> `UserProfile`.
+String toPascalCase(String str) => str
     .split(RegExp('[_-]'))
     .map((w) =>
         w.isEmpty ? '' : w[0].toUpperCase() + w.substring(1).toLowerCase())
     .join();
 
-String _toCamelCase(String str) {
-  final pascal = _toPascalCase(str);
+/// `user_profile` -> `userProfile`: the module's field name on the entry point.
+String toCamelCase(String str) {
+  final pascal = toPascalCase(str);
   return pascal.isEmpty ? '' : pascal[0].toLowerCase() + pascal.substring(1);
 }
 
@@ -215,15 +217,15 @@ class DartGenerator {
         : '';
 
     final moduleGetters = modules.map((m) {
-      final className = '${_toPascalCase(m.name)}L10n';
-      final fieldName = _toCamelCase(m.name);
+      final className = '${toPascalCase(m.name)}L10n';
+      final fieldName = toCamelCase(m.name);
       return '  $className get $fieldName => _$fieldName!;\n'
           '  static $className? _$fieldName;';
     }).join('\n');
 
     final moduleLoaders = modules.map((m) {
-      final className = '${_toPascalCase(m.name)}L10n';
-      final fieldName = _toCamelCase(m.name);
+      final className = '${toPascalCase(m.name)}L10n';
+      final fieldName = toCamelCase(m.name);
       return '    _$fieldName = $className.load(localeName);';
     }).join('\n');
 
@@ -349,7 +351,7 @@ ${config.supportedLocales.map(_localeConstructor).join(',\n')}
   // ─── Module classes ───────────────────────────────────────────────────
 
   void _generateModuleClass(ParsedModule module) {
-    final className = '${_toPascalCase(module.name)}L10n';
+    final className = '${toPascalCase(module.name)}L10n';
     final methods =
         module.keys.map((k) => _generateMethod(k, module.name)).join('\n\n');
 

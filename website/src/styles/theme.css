@@ -1,0 +1,29 @@
+/* Accent colours taken from the terminal GUI's header. */
+:root {
+	--sl-color-accent-low: #1b2a45;
+	--sl-color-accent: #4f77b8;
+	--sl-color-accent-high: #c9dbfb;
+}
+
+:root[data-theme='light'] {
+	--sl-color-accent-low: #dbe6f8;
+	--sl-color-accent: #3b62a3;
+	--sl-color-accent-high: #1b2f55;
+}
+
+/* Recorded terminal sessions. */
+.demo {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 10px;
+	box-shadow: 0 8px 30px rgb(0 0 0 / 0.25);
+	margin-block: 1.25rem;
+}
+
+.demo-caption {
+	margin-top: -0.5rem;
+	font-size: var(--sl-text-sm);
+	color: var(--sl-color-gray-3);
+	text-align: center;
+}

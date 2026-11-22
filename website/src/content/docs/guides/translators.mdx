@@ -1,0 +1,75 @@
+---
+title: Working with translators
+description: Translate in the GUI, exchange CSV and XLIFF files, and test layouts with a pseudo-locale.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+There are three ways to get translations in, depending on who translates.
+
+## You translate: the Translate screen
+
+In the GUI, **Translate** (`t`) asks for a language, then shows every missing or empty translation one at a time, with the default-locale text above the field.
+
+<img class="demo" src="/demos/translate.gif" alt="Translating two missing French values in a row." />
+
+Enter saves and moves on, an empty value skips the key, and Esc stops. What you saved is kept, and the code is regenerated once at the end.
+
+## A translator with a spreadsheet: CSV
+
+```sh
+ml10n export -o translations.csv
+```
+
+The file has one row per key and one column per locale:
+
+| Module | Key | Description | en | fr |
+|---|---|---|---|---|
+| auth | emailLabel | | Email | E-mail |
+| auth | signIn | Main button | Sign in | |
+
+It is UTF-8 with a byte-order mark, so Excel shows accents and non-Latin scripts correctly. Google Sheets and Numbers open it too.
+
+When it comes back:
+
+```sh
+ml10n import translations.csv --dry-run   # see what would change
+ml10n import translations.csv
+```
+
+In the GUI, **Export** and **Import** do the same. **Import** lists the `.csv`, `.xlf` and `.xliff` files in the project, then shows every change before writing.
+
+<Aside title="Import is safe with partial files">
+Import only fills keys that already exist in the default locale, and ignores empty cells. A spreadsheet with a few rows filled in cannot erase other translations, and an added row cannot create a key by accident.
+</Aside>
+
+## A translation service: XLIFF
+
+```sh
+ml10n export -o translations.xlf          # all modules
+ml10n export -m checkout -o checkout.xlf  # one module
+```
+
+XLIFF 1.2 is accepted by Crowdin, Lokalise, Phrase, Trados, memoQ and most other translation tools. Each target locale is a `<file>` with a `<trans-unit>` per key: the default-locale `source`, the `target` to translate, and the description as a `note`. Import the translated file the same way as CSV.
+
+## Test layouts with a pseudo-locale
+
+Before any translator starts, a pseudo-locale shows where your layout will break:
+
+```sh
+ml10n pseudo-locale                 # en_XA, 30% longer
+ml10n pseudo-locale --expansion 0.5 # 50% longer
+```
+
+```json
+"appTitle": "[Åþþ Ţïţĺë ~~~]",
+"welcomeBack": "[Ŵëĺçöɱë ƀåçĸ, {name}! ~~~~~~~]"
+```
+
+Run the app with `locale: const Locale('en', 'XA')`. Then:
+
+- **Text that is not accented** is hardcoded. Fix it with [Finding hardcoded text](/guides/hardcoded-text/).
+- **Text cut off at the brackets** will be cut off in German and French too.
+- **Accents clipped at the top** show line heights that are too tight for Vietnamese or Polish.
+
+Placeholders and ICU syntax are kept, so plurals still work. Delete the pseudo-locale with `remove-locale en_XA` before you ship.

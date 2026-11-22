@@ -1,0 +1,87 @@
+---
+title: Keeping translations healthy
+description: Find missing translations and ICU mistakes, remove unused keys, keep files sorted, and check the setup.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Check
+
+<Tabs syncKey="ui">
+<TabItem label="Terminal GUI">
+**Check** (`c`) lists every problem. Enter on a missing or empty translation lets you fill it in right there.
+
+<img class="demo" src="/demos/check.gif" alt="The check list with one error and one warning; filling in the empty French sign-in label." />
+</TabItem>
+<TabItem label="Command">
+```sh
+ml10n check
+```
+```
+warning: lib/features/auth/l10n/auth_fr.arb:5: Empty "signIn" (en: "Sign in"). (empty-translation)
+error: lib/features/auth/l10n/auth_fr.arb: Missing "forgotPassword" (exists in en). (missing-translation)
+1 error(s), 1 warning(s), 0 info.
+```
+</TabItem>
+</Tabs>
+
+| Severity | Problem |
+|---|---|
+| error | An ARB file is not valid JSON, or lacks `@@locale` or `@@context` |
+| error | A module has no file for the default locale |
+| error | A key from the default locale is missing in a translation |
+| error | ICU syntax error |
+| error | A translation's placeholders cannot work with the default locale's (that locale then uses the default text) |
+| error | A plural, select or ordinal has no `other` branch |
+| error | A placeholder name is a Dart keyword |
+| warning | An empty translation |
+| warning | The configured default locale has no ARB files |
+| warning | Dart code imports a generated module file directly instead of the entry point |
+| hint | A translation adds or drops a plural or select that the default locale has; `#` outside a plural; `=1` in an ordinal (shown with `--hints`) |
+
+`check` exits with code 1 when there are errors, so it can fail a CI build. Add `--fatal-warnings` to fail on warnings too. `--unused` and `--hardcoded` add those reports to the same run.
+
+## Unused keys
+
+<Tabs syncKey="ui">
+<TabItem label="Terminal GUI">
+**Unused keys** lists them. Space selects the ones to delete, and Enter removes them from every locale after you confirm with `y`.
+</TabItem>
+<TabItem label="Command">
+```sh
+ml10n unused                   # list
+ml10n unused --remove          # asks, then deletes from every locale
+ml10n unused --remove --yes    # scripts
+```
+</TabItem>
+</Tabs>
+
+A key is used when a Dart file under `lib/` (generated files aside) contains `.<module>.<key>`, for example `.auth.emailLabel`. Keys reached in other ways, such as through a `Map` or a `switch` on strings, show up as unused, so review the list before removing.
+
+## Sort keys
+
+```sh
+ml10n sort            # sort every ARB file
+ml10n sort -m auth    # one module
+ml10n sort --check    # change nothing; exit 1 if a file is unsorted
+```
+
+`@@` attributes come first, then the keys alphabetically, each followed by its `@key` metadata. Sorted files produce smaller diffs and fewer merge conflicts. In the GUI, it is **Sort keys**.
+
+## Doctor
+
+```sh
+ml10n doctor
+ml10n doctor --fix
+```
+
+`doctor` checks the setup rather than the translations:
+
+- the `modular_l10n:` section of `pubspec.yaml`, and whether it parses;
+- whether generation is enabled;
+- that modules exist and every ARB file is valid;
+- that the default locale has ARB files;
+- that `intl` and `flutter_localizations` are dependencies;
+- whether Flutter Intl is used, and whether its settings collide with these (same class name or output folder).
+
+`--fix` applies the fixes that only need a `pubspec.yaml` change, such as turning generation back on. The GUI runs these checks when it opens and shows the problems on the overview; **Doctor** (`d`) offers the fixes.

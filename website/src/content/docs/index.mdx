@@ -1,0 +1,73 @@
+---
+title: Modular L10n
+description: Modular, type-safe Flutter localization from the command line or a terminal GUI. Only Dart required.
+template: splash
+hero:
+  tagline: One ARB folder per feature, one type-safe API for the whole app. Manage modules, keys, locales and translations from a terminal app or plain commands. All you need is Dart.
+  actions:
+    - text: Get started
+      link: /getting-started/
+      icon: right-arrow
+    - text: Tour the GUI
+      link: /gui/
+      variant: minimal
+---
+
+import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
+
+<img class="demo" src="/demos/tour.gif" alt="The Modular L10n terminal app: an action sidebar, a main panel and a log, inside a terminal window." />
+
+## Three commands to a localized app
+
+<Tabs>
+<TabItem label="Terminal GUI">
+
+```sh
+flutter pub add --dev modular_l10n_generator
+flutter pub add intl flutter_localizations --sdk=flutter
+dart run modular_l10n_generator gui
+```
+
+Pick **Initialize** and answer four questions. You get a `pubspec.yaml` section, your first module, and the generated code.
+
+</TabItem>
+<TabItem label="Plain commands">
+
+```sh
+flutter pub add --dev modular_l10n_generator
+flutter pub add intl flutter_localizations --sdk=flutter
+dart run modular_l10n_generator init --default-locale en --module app --dir lib/app
+```
+
+</TabItem>
+</Tabs>
+
+Then, in a widget:
+
+```dart
+Text(ML.of(context).auth.emailLabel)
+Text(ML.of(context).home.cartItems(3))   // "3 items"
+```
+
+## What you get
+
+<CardGrid>
+	<Card title="Modular by feature" icon="puzzle">
+		Each feature keeps its own `l10n/` folder. `lib/features/auth/l10n/` becomes `ML.of(context).auth`, so teams stop editing one giant ARB file.
+	</Card>
+	<Card title="A terminal app for everything" icon="laptop">
+		Create modules by browsing your folders, add keys in every locale at once, translate one key at a time, and fix problems as they are found. Keyboard or mouse.
+	</Card>
+	<Card title="Full ICU, done right" icon="approve-check">
+		`plural`, `select` and `selectordinal`, nested to any depth, with number and date formatting. Ordinals use CLDR rules, so English gives "2nd" and "23rd".
+	</Card>
+	<Card title="Works in any editor and in CI" icon="seti:pipeline">
+		Android Studio, IntelliJ, VS Code, Vim. `check` and `sort --check` fail the build on missing translations, ICU mistakes and unsorted files.
+	</Card>
+	<Card title="Ready for translators" icon="translate">
+		Export to CSV for spreadsheets or XLIFF 1.2 for Crowdin, Lokalise and Phrase, then import it back. Pseudo-locales show layout problems before translators start.
+	</Card>
+	<Card title="Same output as the VS Code extension" icon="random">
+		Byte-for-byte identical generated code, and the same `pubspec.yaml` settings. Your team can mix both tools without churn.
+	</Card>
+</CardGrid>

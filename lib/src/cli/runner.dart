@@ -9,6 +9,11 @@ import '../generate.dart';
 import '../logger.dart';
 import '../version.dart';
 import '../watch.dart';
+import 'commands/edit_commands.dart';
+import 'commands/exchange_commands.dart';
+import 'commands/gui_command.dart';
+import 'commands/quality_commands.dart';
+import 'commands/setup_commands.dart';
 
 const _executable = 'modular_l10n_generator';
 
@@ -16,16 +21,7 @@ const _executable = 'modular_l10n_generator';
 /// 0 on success, 1 when generation failed (or warned under
 /// `--fatal-warnings`), 64 for a usage error.
 Future<int> runCli(List<String> args) async {
-  final runner = CommandRunner<int>(
-    _executable,
-    'Generate a type-safe, modular Flutter localization API from ARB files.\n\n'
-    'Configuration comes from the modular_l10n: section of pubspec.yaml; '
-    'flags override it.\nRunning with no command is the same as "generate".',
-  )
-    ..argParser.addFlag('version', negatable: false, help: 'Print the version.')
-    ..addCommand(_GenerateCommand())
-    ..addCommand(_WatchCommand());
-
+  final runner = buildCommandRunner();
   try {
     final topLevel = runner.parse(_withDefaultCommand(args, runner));
     if (topLevel['version'] == true) {
@@ -41,6 +37,36 @@ Future<int> runCli(List<String> args) async {
     return 64;
   }
 }
+
+/// Every command and option, without running anything. The docs site's
+/// command reference is generated from this (tool/gen_commands_doc.dart).
+CommandRunner<int> buildCommandRunner() => CommandRunner<int>(
+      _executable,
+      'Generate a type-safe, modular Flutter localization API from ARB files.\n\n'
+      'Configuration comes from the modular_l10n: section of pubspec.yaml; '
+      'flags override it.\nRunning with no command is the same as "generate".',
+    )
+      ..argParser
+          .addFlag('version', negatable: false, help: 'Print the version.')
+      ..addCommand(_GenerateCommand())
+      ..addCommand(_WatchCommand())
+      ..addCommand(InitCommand())
+      ..addCommand(CreateModuleCommand())
+      ..addCommand(AddKeyCommand())
+      ..addCommand(AddLocaleCommand())
+      ..addCommand(RemoveLocaleCommand())
+      ..addCommand(RenameKeyCommand())
+      ..addCommand(SortCommand())
+      ..addCommand(CheckCommand())
+      ..addCommand(UnusedCommand())
+      ..addCommand(DoctorCommand())
+      ..addCommand(PseudoLocaleCommand())
+      ..addCommand(ExportCommand())
+      ..addCommand(ImportCommand())
+      ..addCommand(MigrateCommand())
+      ..addCommand(HardcodedCommand())
+      ..addCommand(ExtractCommand())
+      ..addCommand(GuiCommand());
 
 /// `generate` is the default command: no arguments, or only options.
 List<String> _withDefaultCommand(List<String> args, CommandRunner<int> runner) {

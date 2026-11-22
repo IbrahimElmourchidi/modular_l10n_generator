@@ -1,0 +1,69 @@
+---
+title: Migrating from Flutter Intl
+description: Move intl_*.arb files into modules, or run both tools side by side.
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+Flutter Intl keeps every text of the app in `lib/l10n/intl_<locale>.arb`. Moving to modules can be done in one step, and both tools can run side by side while you move.
+
+## Side by side
+
+Nothing has to change on day one. This tool ignores `intl_*.arb` files, and refuses settings that would break Flutter Intl's build:
+
+- the same class name (Flutter Intl uses `S`, this tool defaults to `ML`);
+- the same output folder (`lib/generated` against `lib/generated/modular_l10n`).
+
+Both delegates go in `MaterialApp`:
+
+```dart
+localizationsDelegates: const [
+  S.delegate,
+  ML.delegate,
+  GlobalMaterialLocalizations.delegate,
+  GlobalWidgetsLocalizations.delegate,
+  GlobalCupertinoLocalizations.delegate,
+],
+```
+
+New features use `ML.of(context).feature.key`, and old screens keep `S.of(context).key` until they are moved.
+
+## Move everything
+
+<Steps>
+
+1. **Commit or stash your work.** The migration only writes new files, but a clean `git status` makes it easy to review.
+
+2. **Choose a mode.**
+
+   **One module.** Every key goes into one module. Fast, and the call sites change from `S.of(context).key` to `ML.of(context).app.key`.
+
+   ```sh
+   ml10n migrate --mode single --module app --dir lib/app
+   ```
+
+   **Split by prefix.** Keys are grouped by their camelCase prefix: `authLogin` and `authLogout` go to an `auth` module, `homeTitle` to `home`. Keys without a prefix (`ok`, `cancel`) go to `common`.
+
+   ```sh
+   ml10n migrate --mode prefix --base-dir lib/features
+   ```
+
+   This creates `lib/features/auth/l10n/`, `lib/features/home/l10n/`, `lib/features/common/l10n/` and so on. Key names stay the same, prefix included.
+
+   In the GUI, **Migrate from Flutter Intl** shows the prefixes and how many keys each has before writing anything.
+
+3. **Update the call sites.** Replace `S.of(context).authLogin` with `ML.of(context).auth.authLogin`. Your IDE's search and replace with a regular expression handles most of it.
+
+4. **Rename keys if you want.** `ml10n rename-key -m auth --from authLogin --to login` renames a key in every locale and in your code.
+
+5. **Remove Flutter Intl** when no code uses `S` anymore: delete `lib/l10n/intl_*.arb`, the `flutter_intl:` section of `pubspec.yaml`, and `lib/generated/intl/` and `lib/generated/l10n.dart`.
+
+</Steps>
+
+<Aside>
+Existing module files are skipped, not overwritten, unless you pass `--overwrite`. Run the migration on a branch and review the new files before deleting the old ones.
+</Aside>
+
+## What is carried over
+
+Every key, its text in every locale, and its `@key` metadata (descriptions and placeholders). `@@locale` is kept, and each new file gets the `@@context` of its module.

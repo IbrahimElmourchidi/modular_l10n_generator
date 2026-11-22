@@ -1,0 +1,76 @@
+---
+title: Finding hardcoded text
+description: Find UI strings in Dart code and move them into ARB files in one step.
+---
+
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+Text written directly in Dart (`Text('Sign out')`) is never translated. The tools can find it and move it into an ARB file for you.
+
+## Find it
+
+<Tabs syncKey="ui">
+<TabItem label="Terminal GUI">
+**Hardcoded strings** (`h`) lists every string that looks like UI text. Type to filter it.
+</TabItem>
+<TabItem label="Command">
+```sh
+ml10n hardcoded
+```
+```
+lib/features/profile/profile_screen.dart:10:40  'Your profile'
+lib/features/profile/profile_screen.dart:12:14  'Signed in as $name'
+lib/features/profile/profile_screen.dart:13:60  'Sign out'
+3 hardcoded string(s). Move one into an ARB file with:
+  modular_l10n_generator extract --file <file> --line <line> --column <column> --module <module>
+```
+</TabItem>
+</Tabs>
+
+The scan reads the Dart files under `lib/`, except generated ones, and looks for strings in places where UI text goes: `Text(...)`, `TextSpan`, button labels, `AppBar` and dialog titles, `SnackBar` content, tabs, list tiles, and `label`, `hint`, `tooltip` and similar arguments. It skips imports, comments, log calls, routes, asset paths, keys, URLs, regular expressions and strings that look like identifiers. It is a heuristic, so it can miss strings and list a few that are not UI text.
+
+## Move it into an ARB file
+
+<Tabs syncKey="ui">
+<TabItem label="Terminal GUI">
+Press Enter on a string, pick the module, and accept or change the suggested key name. A preview shows the line before and after. Press Enter to extract.
+
+<img class="demo" src="/demos/hardcoded.gif" alt="Extracting 'Signed in as $name' into the home module as signedInAs(name)." />
+</TabItem>
+<TabItem label="Command">
+```sh
+ml10n extract --file lib/features/profile/profile_screen.dart \
+  --line 12 --column 14 -m profile
+```
+`--column` can point anywhere inside the string. Without `-k`, the key name is suggested from the text.
+</TabItem>
+</Tabs>
+
+What happens:
+
+```dart
+// before
+Text('Signed in as $name'),
+// after
+Text(ML.of(context).profile.signedInAs(name)),
+```
+
+```json
+"signedInAs": "Signed in as {name}"
+```
+
+- `$name` and `${user.name}` become `{name}` placeholders, and the expressions are passed as arguments.
+- The text goes into the default-locale file. Other locales get an empty value, which shows the default text until translated.
+- A `const` directly before the widget is removed, because the lookup is not a constant. A `const` further up the tree has to be removed by hand; the analyzer will point to it.
+
+<Aside type="tip" title="From your IDE">
+In Android Studio, an External Tool can extract the string under the cursor. See [Android Studio and IntelliJ](/guides/android-studio/#extract-the-string-under-the-cursor).
+</Aside>
+
+## Make it part of CI
+
+```sh
+ml10n check --hardcoded --fatal-warnings
+```
+
+This fails the build when new hardcoded strings appear. Because the scan is a heuristic, start with the report alone and add `--fatal-warnings` once the list is clean.

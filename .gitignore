@@ -4,3 +4,6 @@ pubspec.lock
 example/pubspec.lock
 example/.flutter-plugins*
 example/lib/generated/
+
+# Frames recorded by tool/demos/record_test.dart (rendered into website/public/demos/).
+tool/demos/frames/

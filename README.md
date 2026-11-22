@@ -1,71 +1,27 @@
 # modular_l10n_generator
 
-Generates a type-safe, **modular** Flutter localization API from ARB files. You write ARB files per feature module, and it generates a single entry point:
+Modular, type-safe Flutter localization from the command line or a terminal GUI. You keep one ARB folder per feature, and it generates one API for the whole app:
 
 ```dart
 Text(ML.of(context).auth.emailLabel)
-Text(ML.of(context).home.unreadMessages(3))
+Text(ML.of(context).home.cartItems(3))   // "3 items"
 ```
 
-It's a command-line tool, so it works from any editor (Android Studio, IntelliJ, VS Code, Vim) and in CI. Its output is byte-for-byte identical to the [Modular Flutter L10n VS Code extension](https://marketplace.visualstudio.com/items?itemName=UtaniumOrg.modular-flutter-l10n), and it reads the same `pubspec.yaml` settings. A team can mix both tools without the generated files churning.
+Create modules, add keys and locales, translate, find hardcoded strings, check for mistakes, and exchange files with translators, all from a full-screen terminal app or plain commands. It works with any editor and in CI, and you only need Dart.
 
-For runtime locale helpers (RTL detection, display names, plural rules), see the companion package [`modular_l10n`](https://pub.dev/packages/modular_l10n).
+![The terminal GUI: an action sidebar, a main panel and a log](https://raw.githubusercontent.com/IbrahimElmourchidi/modular_l10n_generator/main/doc/screenshots/gui-tour.gif)
 
-## Features
+**📖 Documentation: [modular-l10n.example.com](https://modular-l10n.example.com)**
 
-- **One ARB folder per feature.** `lib/features/auth/l10n/en.arb` becomes `ML.of(context).auth`.
-- **Full ICU messages.** Supports `plural` (including `=N` and `offset:`), `select`, `selectordinal`, and any nesting of them.
-- **Correct ordinals.** CLDR ordinal rules are compiled in, so English gives "2nd" and "23rd" rather than intl's cardinal-based results.
-- **Number and date formatting** from `@key.placeholders` metadata (`NumberFormat`, `DateFormat`).
-- **Per-key fallback.** A missing or incompatible translation falls back to the template locale, with a warning.
-- **Watch mode** that regenerates when an ARB file or `pubspec.yaml` changes.
-- **Works alongside Flutter Intl.** `intl_*.arb` files are ignored, and conflicting settings are caught before they break the build.
-
-## Install
+## Quick start
 
 ```sh
 flutter pub add --dev modular_l10n_generator
 flutter pub add intl flutter_localizations --sdk=flutter
+dart run modular_l10n_generator gui
 ```
 
-The generated code depends on `intl` and `flutter_localizations`. This package itself is only a dev dependency, so nothing from it ships in your app.
-
-## Write ARB files
-
-Put each module's ARB files in an `l10n/` folder. Every file needs `@@locale` and `@@context` (the module name, in snake_case):
-
-```
-lib/features/auth/l10n/en.arb
-lib/features/auth/l10n/ar.arb
-lib/features/home/l10n/en.arb
-lib/features/home/l10n/ar.arb
-```
-
-```json
-{
-  "@@locale": "en",
-  "@@context": "auth",
-  "emailLabel": "Email",
-  "welcomeBack": "Welcome back, {name}!",
-  "unreadMessages": "{count, plural, =0{No new messages} one{One new message} other{# new messages}}",
-  "@unreadMessages": {
-    "placeholders": { "count": { "type": "int" } }
-  }
-}
-```
-
-Metadata (`@key`) belongs in the default-locale file. Other locales only need the translations.
-
-## Generate
-
-```sh
-dart run modular_l10n_generator          # generate once (same as "generate")
-dart run modular_l10n_generator watch    # generate, then regenerate on change
-```
-
-Run it from anywhere inside the project. It finds the nearest `pubspec.yaml`.
-
-## Use the generated code
+Pick **Initialize**, answer four questions, and you have a configured project, a first module and generated code. Then wire up `MaterialApp`:
 
 ```dart
 import 'generated/modular_l10n/l10n.dart';
@@ -78,81 +34,60 @@ MaterialApp(
     GlobalCupertinoLocalizations.delegate,
   ],
   supportedLocales: ML.supportedLocales,
-  home: const HomeScreen(),
 );
-
-// In widgets:
-Text(ML.of(context).auth.welcomeBack('Sara'));
-// Outside widgets (services, cubits), after the delegate has loaded:
-final label = ML.current.auth.emailLabel;
 ```
+
+The full walkthrough is in [Getting started](https://modular-l10n.example.com/getting-started/).
+
+To type less, activate it once and use the short name from any project:
+
+```sh
+dart pub global activate modular_l10n_generator
+ml10n gui
+```
+
+## Features
+
+- **One ARB folder per feature.** `lib/features/auth/l10n/` becomes `ML.of(context).auth`.
+- **A terminal GUI** with every action, a folder browser for placing modules, a one-key-at-a-time translation screen, and watch mode. [Tour](https://modular-l10n.example.com/gui/)
+- **Full ICU messages**: `plural`, `select` and `selectordinal`, nested to any depth, with number and date formatting and correct CLDR ordinals.
+- **Per-key fallback**: a missing translation shows the default-locale text.
+- **Quality checks for CI**: missing and empty translations, ICU mistakes, unused keys, hardcoded strings, unsorted files. [CI guide](https://modular-l10n.example.com/guides/ci/)
+- **Translator workflow**: CSV and XLIFF 1.2 export and import, and pseudo-locales for layout testing. [Guide](https://modular-l10n.example.com/guides/translators/)
+- **Migration from Flutter Intl**, and it runs alongside Flutter Intl in the meantime.
+- **Same output as the [VS Code extension](https://marketplace.visualstudio.com/items?itemName=UtaniumOrg.modular-flutter-l10n)**, byte for byte, from the same `pubspec.yaml` settings.
+
+## Commands
+
+Every GUI action is also a command. Run `dart run modular_l10n_generator help <command>` for its options, or see the [command reference](https://modular-l10n.example.com/reference/commands/).
+
+| Command | What it does |
+|---|---|
+| `generate` (default), `watch` | Generate the code once, or on every change |
+| `gui` | Open the terminal GUI |
+| `init`, `doctor` | Set up the project; check the setup |
+| `create-module`, `add-key`, `rename-key` | Modules and keys |
+| `add-locale`, `remove-locale`, `pseudo-locale` | Languages |
+| `check`, `sort`, `unused`, `hardcoded`, `extract` | Quality |
+| `export`, `import`, `migrate` | Translators and Flutter Intl |
 
 ## Configure
 
-All settings are optional and go in `pubspec.yaml`. These are the defaults:
+All settings are optional, in `pubspec.yaml`:
 
 ```yaml
 modular_l10n:
-  enabled: true                         # false turns generation off
   class_name: ML
-  default_locale: en                    # the template locale
+  default_locale: en
   output_dir: lib/generated/modular_l10n
-  arb_dir_pattern: "**/l10n/*.arb"
-  generate_combined_arb: true           # one merged ARB per locale, for translation tools
-  use_deferred_loading: false           # load locale tables lazily (useful on web)
-  module_access: part                   # part | library
-  log_level: warning                    # silent | error | warning | verbose
 ```
 
-`module_access: part` makes each module file a `part` of the entry point, so `ML` is the only way in. `library` lets module files be imported directly.
+Every setting is described in [Configuration](https://modular-l10n.example.com/reference/configuration/).
 
-Command-line flags override `pubspec.yaml`, key by key:
+## More
 
-| Flag | Meaning |
-|---|---|
-| `--root <dir>` | Project directory (default: nearest `pubspec.yaml`) |
-| `--class-name`, `--output-dir`, `--default-locale`, `--arb-pattern`, `--module-access` | Same as the `pubspec.yaml` keys |
-| `--[no-]combined-arb`, `--[no-]deferred-loading` | Same as the `pubspec.yaml` keys |
-| `-v`, `--verbose` / `-q`, `--quiet` / `--log-level` | Output detail |
-| `--fatal-warnings` | Exit with code 1 if there are any warnings (for CI) |
-| `--force` | Generate even when the settings collide with Flutter Intl |
-
-Exit codes: `0` success, `1` generation failed (or warnings under `--fatal-warnings`), `64` usage error.
-
-## Android Studio and IntelliJ
-
-There are three ways to set it up. Pick one.
-
-**Regenerate on save (File Watcher).** Install the *File Watchers* plugin, then go to *Settings → Tools → File Watchers → + → Custom*:
-
-| Field | Value |
-|---|---|
-| File type | `JSON` (or *Any*, with the scope below) |
-| Scope | a custom scope with pattern `file:*/l10n/*.arb` |
-| Program | `dart` (or the full path to the Dart SDK's `bin/dart`) |
-| Arguments | `run modular_l10n_generator --quiet` |
-| Working directory | `$ProjectFileDir$` |
-| Advanced | untick *Auto-save edited files*; tick *Trigger the watcher on external changes* |
-
-ARB files may not be associated with JSON by default. Add `*.arb` under *Settings → Editor → File Types → JSON*.
-
-**Run watch mode in the background.** Go to *Run → Edit Configurations → + → Shell Script*, choose *Script text*, enter `dart run modular_l10n_generator watch`, and set the working directory to the project root. Start it once per session and leave it running.
-
-**Generate on demand (External Tool).** Go to *Settings → Tools → External Tools → +* and set Program to `dart`, Arguments to `run modular_l10n_generator`, and Working directory to `$ProjectFileDir$`. It then appears under *Tools → External Tools*, and you can give it a keyboard shortcut in *Keymap*.
-
-## CI
-
-```sh
-dart run modular_l10n_generator --fatal-warnings
-git diff --exit-code lib/generated   # fail if someone forgot to regenerate
-```
-
-## Programmatic use
-
-The pipeline is also available as a library, for build scripts:
-
-```dart
-import 'package:modular_l10n_generator/modular_l10n_generator.dart';
-
-final result = runGeneration(rootPath: '.', logger: Logger());
-```
+- [Writing ARB files](https://modular-l10n.example.com/guides/arb-files/): placeholders, plurals, dates, numbers
+- [Android Studio and IntelliJ](https://modular-l10n.example.com/guides/android-studio/): regenerate on save, extract strings from the editor
+- [Migrating from Flutter Intl](https://modular-l10n.example.com/guides/migrate-flutter-intl/)
+- [Library API](https://modular-l10n.example.com/reference/library/) for build scripts
+- Runtime helpers (RTL detection, display names, plural rules): [`modular_l10n`](https://pub.dev/packages/modular_l10n)

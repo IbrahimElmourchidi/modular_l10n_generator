@@ -1,0 +1,118 @@
+---
+title: Modules, keys and locales
+description: Organize translations by feature, and add, rename and remove keys and languages.
+---
+
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+## What a module is
+
+A module is one feature's translations: an `l10n/` folder with one ARB file per locale. All files with the same `@@context` belong to the same module, and the module becomes one accessor on the generated class:
+
+```
+lib/features/auth/l10n/   →  ML.of(context).auth
+lib/features/cart/l10n/   →  ML.of(context).cart
+lib/core/l10n/            →  ML.of(context).core
+```
+
+Small modules mean fewer merge conflicts, and a feature can be moved or deleted together with its texts. A `common` or `core` module is a good home for texts used everywhere, like "OK" and "Cancel".
+
+## Create a module
+
+<Tabs syncKey="ui">
+<TabItem label="Terminal GUI">
+**Create module** (`m`): browse to the feature folder and choose **▶ Create here**. See the [GUI tour](/gui/#create-module).
+</TabItem>
+<TabItem label="Command">
+```sh
+ml10n create-module --dir lib/features/cart
+ml10n create-module --dir lib/features/cart --name cart --locales en,fr,ar --empty
+```
+</TabItem>
+</Tabs>
+
+This creates `lib/features/cart/l10n/cart_<locale>.arb` for every locale of the project. The default-locale file gets a starter key, `cartTitle: "Cart Title"`, unless you pass `--empty`. Running it again on an existing module only adds missing locale files. Existing files are never overwritten unless you pass `--overwrite`.
+
+## Add a key
+
+<Tabs syncKey="ui">
+<TabItem label="Terminal GUI">
+**Add key** (`a`): choose the module, name the key, and type the text for each locale.
+</TabItem>
+<TabItem label="Command">
+```sh
+ml10n add-key -m cart -k checkout --value en=Checkout --value fr=Commander
+ml10n add-key -m cart -k total --value "en=Total: {amount}" \
+  --placeholder amount:double --description "Bottom of the cart"
+```
+</TabItem>
+</Tabs>
+
+The key is added to every locale file of the module. Locales without a value get an empty string, so `check` and **Translate** show them as to do.
+
+## Rename a key
+
+<Tabs syncKey="ui">
+<TabItem label="Terminal GUI">
+**Rename key**: choose the module and key, type the new name, and review the files and lines that change.
+</TabItem>
+<TabItem label="Command">
+```sh
+ml10n rename-key -m cart --from checkout --to checkoutButton --dry-run
+ml10n rename-key -m cart --from checkout --to checkoutButton
+```
+</TabItem>
+</Tabs>
+
+The key and its `@key` metadata are renamed in every locale file, keeping their position. Uses like `.cart.checkout` in Dart files under `lib/` are updated too. Generated files are left alone and regenerated afterwards.
+
+<Aside type="caution">
+Only uses written as `.<module>.<key>` are found. A key reached another way, such as through a `Map` lookup, has to be updated by hand.
+</Aside>
+
+## Remove keys
+
+There is no command to delete a single key. Remove it from the ARB files, or let [`unused`](/guides/quality/#unused-keys) find and remove the keys no code uses.
+
+## Add a locale
+
+<Tabs syncKey="ui">
+<TabItem label="Terminal GUI">
+**Add locale** (`l`): type the code, or press Tab to cycle through common locales.
+</TabItem>
+<TabItem label="Command">
+```sh
+ml10n add-locale ar
+ml10n add-locale pt_BR
+```
+</TabItem>
+</Tabs>
+
+Every module gets a file for the new locale, with the default locale's keys and empty values. Until they are filled in, the app shows the default-locale text. Fill them with **Translate**, with [a spreadsheet](/guides/translators/), or by hand.
+
+Locale codes are a language, optionally followed by a script and a region: `fr`, `pt_BR`, `zh_Hans`, `zh_Hant_TW`. `pt-BR` is accepted and written as `pt_BR`.
+
+## Remove a locale
+
+<Tabs syncKey="ui">
+<TabItem label="Terminal GUI">
+**Remove locale**: choose it, review the files, and press `y`.
+</TabItem>
+<TabItem label="Command">
+```sh
+ml10n remove-locale ar          # asks first
+ml10n remove-locale ar --yes    # scripts
+```
+</TabItem>
+</Tabs>
+
+The default locale cannot be removed.
+
+## Change the default locale
+
+The default locale is the template: its keys define what exists, its metadata defines the placeholders, and other locales fall back to it. Change it in **Settings** in the GUI, or in `pubspec.yaml`:
+
+```yaml
+modular_l10n:
+  default_locale: fr
+```

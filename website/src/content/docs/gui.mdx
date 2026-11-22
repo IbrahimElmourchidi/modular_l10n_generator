@@ -1,0 +1,108 @@
+---
+title: The terminal GUI
+description: A tour of the full-screen terminal app and every action in it.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+```sh
+dart run modular_l10n_generator gui      # or: ml10n gui
+```
+
+The GUI is a full-screen app that runs inside your terminal: macOS Terminal, iTerm, GNOME Terminal, Windows Terminal, or the terminal panel in Android Studio, IntelliJ and VS Code. It needs nothing besides Dart. Run it from anywhere inside your Flutter project; it finds the nearest `pubspec.yaml`.
+
+<img class="demo" src="/demos/tour.gif" alt="Moving through the sidebar, opening the help screen, then running Generate." />
+
+## The layout
+
+- **Header**: the project folder, the generated class name, the project's locales, the number of modules, and whether watch mode is on.
+- **Actions** (left): every action, in five groups. A letter on the right is that action's shortcut.
+- **Main panel** (right): the current action's step. With no action running, it shows an overview of the modules and any setup problems that `doctor` finds.
+- **Log** (bottom): what each action did, which files it wrote, and the generator's output. Press `v` to make it taller.
+- **Key hints** (last line): the keys that work right now.
+
+## Moving around
+
+| Key | Does |
+|---|---|
+| ↑ ↓ or `j` `k` | Move in a list |
+| Enter | Open the action, choose the item, or confirm |
+| Esc | Go back one step. In the sidebar, quit |
+| A letter | Run that action (see the sidebar) |
+| `?` | Help |
+| `q` or Ctrl+C | Quit |
+
+You can also click actions and list items with the mouse. The complete list is in [GUI keys](/reference/gui-keys/).
+
+Every action is a series of steps: pick a module, type a key, confirm. Esc cancels the whole action, and nothing is written until the last step. Destructive steps (deleting files or keys) only go ahead when you press `y`; Enter does not confirm them.
+
+## Actions
+
+### Create module
+
+Shortcut `m`. Browse the project's folders and pick where the module goes.
+
+<img class="demo" src="/demos/create-module.gif" alt="Browsing from lib/ to lib/features/profile/, choosing Create here, accepting the module name and locales." />
+
+- The browser starts in `lib/`. Enter opens a folder, ← or Backspace goes up, `n` makes a new folder.
+- Folders that already have an `l10n/` folder are marked `[l10n]`.
+- **▶ Create here** puts the module's `l10n/` folder in the folder you are in.
+- The module name defaults to the folder name in snake_case. Every existing locale is pre-selected; choose **+ another locale…** to add more.
+- On a folder that already has a module, it only adds the locale files that are missing.
+
+### Add key
+
+Shortcut `a`. Choose a module, name the key in camelCase, then type its text in each locale. The default locale comes first, and the others show it as a reference. Leave a locale empty to translate it later.
+
+<img class="demo" src="/demos/add-key.gif" alt="Adding welcomeBack to the home module with an English and a French value." />
+
+### Translate
+
+Shortcut `t`. Goes through every missing or empty translation for one language, one key at a time, showing the default-locale text. Enter saves and moves on, an empty value skips, Esc stops. The code is regenerated once at the end.
+
+<img class="demo" src="/demos/translate.gif" alt="Translating two missing French values in a row." />
+
+### Check
+
+Shortcut `c`. Lists missing and empty translations, ICU syntax mistakes, placeholder mismatches between locales, and imports that bypass the generated entry point. Type to filter the list. Enter on a missing or empty translation opens a field to fill it in.
+
+<img class="demo" src="/demos/check.gif" alt="The check list with one error and one warning; filling in the empty French sign-in label." />
+
+### Hardcoded strings
+
+Shortcut `h`. Finds string literals in `lib/` that look like UI text. Choose one, pick a module, accept or change the suggested key name, and review the before-and-after line. The tool writes the text into every locale's ARB file and replaces the literal with the generated call. `${name}` interpolations become `{name}` placeholders.
+
+<img class="demo" src="/demos/hardcoded.gif" alt="Extracting 'Signed in as $name' into the home module as signedInAs(name)." />
+
+### The other actions
+
+| Action | What it does |
+|---|---|
+| **Generate** (`g`) | Generate the Dart code now. |
+| **Doctor** (`d`) | Check the configuration, modules, dependencies and Flutter Intl conflicts. Offers fixes that only need a `pubspec.yaml` change. |
+| **Initialize** | Add the `modular_l10n:` section and create the first module. See [Getting started](/getting-started/). |
+| **Settings** | Edit every `modular_l10n:` setting. Toggles flip with Enter. Changes are written into `pubspec.yaml` with its comments and formatting kept. |
+| **Rename key** | Rename a key in every locale and in your Dart code. Shows the files and lines first. |
+| **Add locale** (`l`) | Add a language to every module. Tab cycles through common locales. |
+| **Remove locale** | Delete a language's ARB files from every module, after listing them. |
+| **Pseudo-locale** | Write an accented, longer copy of the default locale, to test layouts. See [Working with translators](/guides/translators/#test-layouts-with-a-pseudo-locale). |
+| **Unused keys** | Keys that no Dart file references. Space selects, Enter removes them from every locale. |
+| **Sort keys** | Sort ARB keys alphabetically, in one module or all of them. |
+| **Export** / **Import** | CSV or XLIFF for translators. See [Working with translators](/guides/translators/). |
+| **Migrate from Flutter Intl** | Move `intl_*.arb` files into modules. See [Migrating from Flutter Intl](/guides/migrate-flutter-intl/). |
+
+## Watch mode
+
+Press `w` to turn on watch mode. While the GUI is open, every ARB file you save in your editor, and every change to `pubspec.yaml`, regenerates the code. The header shows **● watching**. Press `w` again to turn it off.
+
+Press `r` to reload the project after you change files outside the GUI while watch mode is off.
+
+<Aside title="Scripts and CI">
+The GUI refuses to start when it is not in an interactive terminal. Use the [commands](/reference/commands/) there instead. Every GUI action has one.
+</Aside>
+
+## Troubleshooting
+
+- **Box lines look broken or show as `?`**: choose a terminal font with box-drawing characters, such as Cascadia Mono, JetBrains Mono, Menlo or DejaVu Sans Mono.
+- **Colours are hard to read**: the GUI detects whether the terminal background is light or dark when it starts. If your theme changed afterwards, restart the GUI.
+- **Too small**: the layout is designed for at least 80 × 24 characters. Make the window bigger or reduce the font size.

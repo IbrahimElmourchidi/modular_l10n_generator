@@ -1,0 +1,14 @@
+# .pubignore replaces .gitignore for `dart pub publish`, so the entries from
+# .gitignore are repeated here.
+.dart_tool/
+build/
+pubspec.lock
+example/pubspec.lock
+example/.flutter-plugins*
+example/lib/generated/
+
+# The docs website and the tooling that records its demos are not part of
+# the package.
+.github/
+website/
+tool/demos/

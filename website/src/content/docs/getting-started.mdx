@@ -1,0 +1,149 @@
+---
+title: Getting started
+description: From a new Flutter app to the first translated string on screen.
+---
+
+import { Steps, Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+This page takes a Flutter app from no localization to a translated screen in English and French. It takes about five minutes.
+
+You need Flutter (or just the Dart SDK for the generator itself). Nothing else is installed: the GUI runs in the terminal you already have.
+
+<Steps>
+
+1. **Add the packages**
+
+   ```sh
+   flutter pub add --dev modular_l10n_generator
+   flutter pub add intl flutter_localizations --sdk=flutter
+   ```
+
+   The generator is a dev dependency, so none of it ships in your app. The generated code uses `intl` and `flutter_localizations`.
+
+2. **Set up the project**
+
+   <Tabs syncKey="ui">
+   <TabItem label="Terminal GUI">
+
+   ```sh
+   dart run modular_l10n_generator gui
+   ```
+
+   Choose **Initialize** in the sidebar. It asks for:
+
+   - the **default locale**, the language your text is written in first (`en`);
+   - the **first module's name** (`app`);
+   - **where it lives**: browse your folders and pick **▶ Create here** (`lib/app`);
+   - the **class name** you will call in widgets (`ML`).
+
+   </TabItem>
+   <TabItem label="Command">
+
+   ```sh
+   dart run modular_l10n_generator init \
+     --default-locale en --module app --dir lib/app --class-name ML
+   ```
+
+   Leave out any option and the command asks for it.
+
+   </TabItem>
+   </Tabs>
+
+   This adds a `modular_l10n:` section to `pubspec.yaml`, creates `lib/app/l10n/app_en.arb` with a starter key, and generates the Dart code in `lib/generated/modular_l10n/`.
+
+3. **Add a language**
+
+   <Tabs syncKey="ui">
+   <TabItem label="Terminal GUI">
+   Choose **Add locale** (shortcut `l`) and type `fr`. Tab cycles through common locales.
+   </TabItem>
+   <TabItem label="Command">
+   ```sh
+   dart run modular_l10n_generator add-locale fr
+   ```
+   </TabItem>
+   </Tabs>
+
+   Every module gets a `<module>_fr.arb` file with the same keys and empty values. Until a value is filled in, that key shows the default-locale text, so the app never shows a blank.
+
+4. **Add a key**
+
+   <Tabs syncKey="ui">
+   <TabItem label="Terminal GUI">
+   Choose **Add key** (shortcut `a`), name it `welcomeBack`, then type the text for each language.
+
+   <img class="demo" src="/demos/add-key.gif" alt="Adding the key welcomeBack with an English and a French value in the terminal app." />
+   </TabItem>
+   <TabItem label="Command">
+   ```sh
+   dart run modular_l10n_generator add-key -m app -k welcomeBack \
+     --value "en=Welcome back, {name}!" --value "fr=Bon retour, {name} !"
+   ```
+   </TabItem>
+   </Tabs>
+
+   `{name}` becomes a parameter: `welcomeBack(Object name)`. To make it a `String`, add `--placeholder name:String` (or declare it in the ARB file, see [placeholders](/guides/arb-files/#placeholders)).
+
+5. **Wire up `MaterialApp`**
+
+   ```dart title="lib/main.dart" ins={2,4,14,19}
+   import 'package:flutter/material.dart';
+   import 'package:flutter_localizations/flutter_localizations.dart';
+
+   import 'generated/modular_l10n/l10n.dart';
+
+   void main() => runApp(const MyApp());
+
+   class MyApp extends StatelessWidget {
+     const MyApp({super.key});
+
+     @override
+     Widget build(BuildContext context) => MaterialApp(
+           localizationsDelegates: const [
+             ML.delegate,
+             GlobalMaterialLocalizations.delegate,
+             GlobalWidgetsLocalizations.delegate,
+             GlobalCupertinoLocalizations.delegate,
+           ],
+           supportedLocales: ML.supportedLocales,
+           home: const HomeScreen(),
+         );
+   }
+   ```
+
+6. **Use it**
+
+   ```dart
+   Text(ML.of(context).app.welcomeBack('Sara'))
+   ```
+
+   Run the app with the device language set to French to see "Bon retour, Sara !".
+
+</Steps>
+
+<Aside type="tip" title="Type less">
+Activate the package once and use the short `ml10n` name from any project:
+
+```sh
+dart pub global activate modular_l10n_generator
+ml10n gui
+```
+
+Make sure `~/.pub-cache/bin` (`%LOCALAPPDATA%\Pub\Cache\bin` on Windows) is on your `PATH`.
+</Aside>
+
+## Keep the code in sync
+
+Every GUI action and command that changes an ARB file regenerates the Dart code. When you edit ARB files by hand, either:
+
+- press `w` in the GUI to turn on **watch mode**, which regenerates on every save while the GUI is open, or
+- run `dart run modular_l10n_generator watch` in a spare terminal, or
+- run `dart run modular_l10n_generator` once after editing.
+
+For Android Studio, a File Watcher can regenerate on save. See [Android Studio and IntelliJ](/guides/android-studio/).
+
+## Next steps
+
+- Split your app into feature modules: [Modules, keys and locales](/guides/modules-keys-locales/).
+- Learn the ICU syntax for plurals, genders and dates: [Writing ARB files](/guides/arb-files/).
+- Take the [terminal GUI tour](/gui/).

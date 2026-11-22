@@ -1,8 +1,13 @@
 name: modular_l10n_generator
-description: Command-line generator for modular Flutter localization. Turns per-feature ARB files into a type-safe, Flutter Intl compatible Dart API. Works from any IDE or CI.
-version: 1.0.0
+description: Modular Flutter localization from the command line or a terminal GUI. Turns per-feature ARB files into a type-safe, Flutter Intl compatible Dart API, and manages modules, keys, locales and translations.
+version: 1.1.0
 repository: https://github.com/IbrahimElmourchidi/modular_l10n_generator
 issue_tracker: https://github.com/IbrahimElmourchidi/modular_l10n_generator/issues
+documentation: https://modular-l10n.example.com
+
+screenshots:
+  - description: The terminal GUI, with every action in a sidebar.
+    path: doc/screenshots/gui-tour.gif
 
 topics:
   - localization
@@ -16,13 +21,16 @@ environment:
 
 executables:
   modular_l10n_generator:
+  ml10n: modular_l10n_generator
 
 dependencies:
   args: ^2.5.0
   glob: ^2.1.2
+  nocterm: ^0.9.0
   path: ^1.9.0
   watcher: ^1.1.0
   yaml: ^3.1.2
+  yaml_edit: ^2.2.4
 
 dev_dependencies:
   lints: ^6.0.0
