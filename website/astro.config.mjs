@@ -7,7 +7,7 @@ const repo = 'https://github.com/IbrahimElmourchidi/modular_l10n_generator';
 // The public address of the site, used for canonical links and the sitemap.
 // The GitHub Pages workflow sets SITE_URL from the DOCS_URL repository
 // variable; the custom domain itself is set in Settings → Pages.
-const site = process.env.SITE_URL || 'https://modular-l10n.example.com';
+const site = process.env.SITE_URL || 'https://l10n.utanium.org';
 
 export default defineConfig({
 	site,

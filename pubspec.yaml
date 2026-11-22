@@ -3,7 +3,7 @@ description: Modular Flutter localization from the command line or a terminal GU
 version: 1.1.0
 repository: https://github.com/IbrahimElmourchidi/modular_l10n_generator
 issue_tracker: https://github.com/IbrahimElmourchidi/modular_l10n_generator/issues
-documentation: https://modular-l10n.example.com
+documentation: https://l10n.utanium.org
 
 screenshots:
   - description: The terminal GUI, with every action in a sidebar.

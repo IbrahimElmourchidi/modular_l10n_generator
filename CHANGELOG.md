@@ -17,7 +17,7 @@
   - Rename and unused-key detection use the effective default locale, like generation does.
   - `pubspec.yaml` is edited in place, keeping comments and formatting.
 - The ops are exported from the library for build scripts.
-- Documentation website with guides, a command reference and recorded GUI demos: https://modular-l10n.example.com
+- Documentation website with guides, a command reference and recorded GUI demos: https://l10n.utanium.org
 
 ## 1.0.0
 
